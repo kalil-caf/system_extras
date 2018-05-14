@@ -52,8 +52,12 @@ struct Config {
 
   // Desired sampling period (passed to perf -c option). Small
   // sampling periods can perturb the collected profiles, so enforce
-  // min/max.
-  uint32_t sampling_period = 5000;
+  // min/max. A value of 0 means perf default. sampling_frequency
+  // takes priority.
+  uint32_t sampling_period = 0;
+  // Desired sampling frequency (passed to perf -f option). A value of 0
+  // means using sampling_period or default.
+  uint32_t sampling_frequency = 0;
   // Length of time to collect samples (number of seconds for 'perf
   // record -a' run).
   uint32_t sample_duration_in_s = 2;
@@ -95,6 +99,9 @@ struct Config {
 
   // If true, use libz to compress the output proto.
   bool compress = true;
+
+  // If true, send the proto to dropbox instead to a file.
+  bool send_to_dropbox = false;
 
   // Sleep for the given number of seconds.
   virtual void Sleep(size_t seconds) = 0;
